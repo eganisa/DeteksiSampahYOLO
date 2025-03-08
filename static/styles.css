@@ -1,0 +1,291 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    background: #E7F0DC;
+    overflow-x: hidden; /* Mencegah scroll horizontal */
+}
+
+/* Header Style */
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px;
+    background: #E7F0DC;
+    color: #333;
+    border-bottom: 2px solid rgba(134, 126, 126, 0.1);
+    border-radius: 0 0 30px 30px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.main-header .logo {
+    display: flex;
+    align-items: center;
+    gap: 5px; 
+}
+
+.main-header .logo img {
+    width: 60px; 
+    height: 60px;
+    object-fit: contain;
+}
+
+.main-header .logo h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #365E32;
+}
+
+.nav-menu {
+    margin-left: auto; /* Dorong menu ke kanan */
+}
+
+.nav-menu ul {
+    list-style: none;
+    display: flex;
+    gap: 30px; /* Atur jarak antar item */
+    margin: 0;
+    padding: 0;
+}
+
+.nav-menu ul li a {
+    text-decoration: none;
+    color: #365E32;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.nav-menu ul li a:hover {
+    color: #13a0bc;
+}
+
+.main-content {
+    display: flex;
+    align-items: center;
+    padding: 70px;
+    text-align: center;
+}
+
+.text-section {
+    max-width: 70%;
+}
+
+.text-section h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0px;
+    color: #333;
+}
+
+.text-section p {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.cta-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #45a049;
+}
+
+.logo-section {
+    text-align: center;
+    margin-left: 50px;
+}
+
+.big-logo {
+    max-width: 300px;
+    height: auto;
+}
+
+/* Detection Section */
+.detection-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    padding-top: 10px;
+    background: #E7F0DC;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Container kamera agar lebih terpusat */
+.camera-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Frame kamera */
+.camera-frame {
+    width: 480px;
+    height: 360px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #333;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0px 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Tombol container */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+/* Tombol */
+.left-button, .right-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    transition: 0.3s;
+}
+
+.left-button {
+    background-color: #4CAF50;
+}
+
+.right-button {
+    background-color: #067eba;
+}
+
+.left-button:hover, 
+.right-button:hover {
+    opacity: 0.8;
+}
+
+.section-title h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-top: 80px;
+}
+
+/* Footer */
+.main-footer {
+    background-color: #E7F0DC;
+    text-align: center;
+    padding: 10px 5px;
+    border-top: 2px solid rgba(134, 126, 126, 0.2);
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-logo {
+    width: 60px; 
+    height: auto;
+}
+
+.footer-row p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .main-header {
+        flex-direction: column;
+        padding: 20px;
+        text-align: center;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        flex-direction: row;
+    }
+    
+    .logo img {
+        display: none; /* Sembunyikan teks TrashSmart di layar kecil */
+    }
+    
+    .nav-menu ul {
+        display: flex;
+        gap: 15px;
+        list-style: none;
+    }
+
+    .main-content {
+        flex-direction: column;
+        text-align: center;
+        padding: 30px;
+    }
+
+    .text-section {
+        max-width: 100%;
+    }
+
+    .logo-section {
+        order: -1;
+        display: flex;
+        justify-content: center;
+        margin-left: 100;
+        margin-bottom: 20px;
+    }
+
+    .big-logo {
+        max-width: 200px;
+    }
+
+    .cta-button {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .section-title {
+        padding: 20px;
+        text-align: center;
+        padding-bottom: 5 px;
+    }
+
+    .camera-frame {
+        width: 100%;
+        max-width: 360px;
+    }
+}

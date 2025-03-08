@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TrashSmart</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="static/styles.css" />
+  </head>
+  <body>
+    <header class="main-header">
+      <div class="logo">
+        <img
+          src="static/images/logo1.png"
+          alt="Logo Deteksi Sampah"
+          class="logo-img"
+        />
+        <h1>TrashSmart</h1>
+      </div>
+      <nav class="nav-menu">
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#section-title">Detection</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section class="main-content" id="main-content">
+      <div class="text-section">
+        <h2>Selamat Datang di Proyek TrashSmart</h2>
+        <p>
+          Proyek ini dirancang untuk membantu mendeteksi sampah secara real-time
+          menggunakan teknologi AI canggih. Jangan biarkan sampah menumpuk dan
+          mengotori lingkungan kita. Bersama kita bisa menjaga kebersihan dan
+          mencegah kerusakan yang lebih besar!
+        </p>
+        <a href="#section-title">
+          <button class="cta-button">Mulai Sekarang</button>
+        </a>
+      </div>
+
+      <div class="logo-section">
+        <img src="static/images/home.png" alt="Logo Besar" class="big-logo" />
+      </div>
+    </section>
+
+    <div class="section-title" id="section-title">
+      <h1>Mulai Deteksi Sampah Anda</h1>
+    </div>
+    <section class="detection-section">
+      <div class="camera-container">
+        <div class="camera-frame" id="camera-frame">
+          <video id="camera-video" autoplay muted playsinline></video>
+          <img id="annotated-image" style="display: none" />
+        </div>
+        <div class="button-container">
+          <button class="left-button" id="start-button">Mulai</button>
+          <button class="right-button" id="stop-button" disabled>Berhenti</button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="main-footer">
+      <div class="footer-content">
+        <div class="footer-row">
+          <img
+            src="static/images/logo1.png"
+            alt="TrashSmart Logo"
+            class="footer-logo"
+          />
+          <p>2024 TrashSmart. Created by Ega Nisa.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const startButton = document.getElementById("start-button");
+      const stopButton = document.getElementById("stop-button");
+      const cameraFrame = document.getElementById("camera-frame");
+      let stream = null;
+      let intervalId = null;
+
+      startButton.addEventListener("click", async () => {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          alert("Kamera tidak didukung di browser ini!");
+          return;
+        }
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ video: true });
+          const videoElement = document.createElement("video");
+          videoElement.srcObject = stream;
+          videoElement.autoplay = true;
+          videoElement.muted = true;
+          videoElement.playsInline = true;
+
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          cameraFrame.innerHTML = "";
+          cameraFrame.appendChild(videoElement);
+
+          const imgElement = document.createElement("img");
+          imgElement.id = "annotated-image";
+          imgElement.style.position = "absolute";
+          imgElement.style.top = "0";
+          imgElement.style.left = "0";
+          imgElement.style.width = "100%";
+          imgElement.style.height = "100%";
+          imgElement.style.pointerEvents = "none";
+          cameraFrame.appendChild(imgElement);
+
+          startButton.disabled = true;
+          stopButton.disabled = false;
+
+          intervalId = setInterval(async () => {
+            canvas.width = videoElement.videoWidth;
+            canvas.height = videoElement.videoHeight;
+            ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+            const imageData = canvas.toDataURL("image/jpeg");
+
+            try {
+              const response = await fetch("/detect", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ image: imageData.split(",")[1] }),
+              });
+              const data = await response.json();
+              if (data.status === "success") {
+                imgElement.src = `data:image/jpeg;base64,${data.annotated_image}`;
+                imgElement.style.display = "block";
+              }
+            } catch (err) {
+              console.error("Error during detection:", err);
+            }
+          }, 500);
+        } catch (err) {
+          console.error("Error enabling camera:", err);
+        }
+      });
+
+      stopButton.addEventListener("click", () => {
+        if (stream) {
+          stream.getTracks().forEach((track) => track.stop());
+          stream = null;
+        }
+        clearInterval(intervalId);
+        intervalId = null;
+        cameraFrame.innerHTML =
+          '<div class="camera-placeholder"><p>Kamera Tidak Aktif</p></div>';
+        startButton.disabled = false;
+        stopButton.disabled = true;
+      });
+    </script>
+  </body>
+</html>
